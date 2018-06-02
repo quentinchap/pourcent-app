@@ -18,7 +18,7 @@ function SimpleAppBar(props) {
       <AppBar position="static" >
         <Toolbar>
           <Typography variant="title" color="inherit">
-            Pourcent app
+            Calory counter
           </Typography>
         </Toolbar>
       </AppBar>

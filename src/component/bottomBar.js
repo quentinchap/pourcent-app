@@ -3,51 +3,37 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import {withStyles} from '@material-ui/core/styles'
+import Icon from '@material-ui/core/Icon';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 const styles = theme => ({
-  button: {
-    marginTop: 20,
-    marginLeft: 10,
-    marginRight: 10,
-    minWidth: 40,
-    width: 40,
-    minHeight: 40,
-    height: 40
+  bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    background: '#d8d8d8',
+    minHeight: '55px',
+    lineHeight: '55px',
+    height: 100
+  },
+  rightIcon: {
+    marginLeft: 10
   },
   container: {
-    display: 'flex',
-    flexWrap: 'wrap'
+    marginBottom: 16
   },
   textField: {
-    flex: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
-  },
-  textField1: {
-    flex: 1,
-    marginLeft: 20,
-    marginRight: theme.spacing.unit
-  },
-  menu: {
-    width: 200
-  },
-  addItem: {
-    display: 'flex',
-    background: '#ececec',
-    padding: 10,
-    height: 100
+    marginRight: 10
   }
 });
 
-export default withStyles(styles)(class AddItem extends Component {
+export default withStyles(styles)(class BottomBar extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      itemToAdd: '',
-      quantityToAdd: ''
-    };
+      quantityToEat: ''
+    }
 
     this.handleInputChange = this
       .handleInputChange
@@ -57,23 +43,18 @@ export default withStyles(styles)(class AddItem extends Component {
       .bind(this);
   }
 
-  
   handleClick(event) {
+    console.log('click');
+    
     event.preventDefault();
     event.stopPropagation();
 
-    let data = Object.assign({}, this.state);
-
-    this.setState({itemToAdd: '', quantityToAdd: ''});
-
-
     this
       .props
-      .addItem(data);
+      .estimate(this.state.quantityToEat);
   }
 
   handleInputChange(event) {
-
     const target = event.target;
     const value = target.type === 'checkbox'
       ? target.checked
@@ -85,44 +66,28 @@ export default withStyles(styles)(class AddItem extends Component {
 
   render() {
     const {classes} = this.props;
-    let ingredientInput = null;
 
     return (
-
-      <div className={classes.addItem}>
+      <div className={classes.bottomBar}>
         <form
           className={classes.container}
           noValidate
           autoComplete="off"
           onSubmit={this.handleClick}>
           <TextField
-            id="name"
-            label="Food name"
-            name="itemToAdd"
-            className={classes.textField1}
-            value={this.state.itemToAdd}
-            onChange={this.handleInputChange}
-            margin="normal"/>
-          <TextField
-            id="value"
-            label="Quantity"
+            label="Quantity to eat"
             type="number"
-            name="quantityToAdd"
-            value={this.state.quantityToAdd}
+            name="quantityToEat"
+            value={this.state.quantityToEat}
             onChange={this.handleInputChange}
             className={classes.textField}
             InputProps={{
             endAdornment: <InputAdornment position="end">g</InputAdornment>
           }}
             margin="normal"/>
-          <Button
-            variant="fab"
-            type="submit"
-            color="primary"
-            aria-label="add"
-            className={classes.button}
-            size="small">
-            <AddIcon/>
+          <Button type="submit" className={classes.button} variant="raised" color="primary">
+            Estimate
+            <Icon className={classes.rightIcon}>send</Icon>
           </Button>
         </form>
       </div>

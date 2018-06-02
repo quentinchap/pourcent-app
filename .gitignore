@@ -20,3 +20,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Node
+npm-debug.log
+/pourcentApp/node_modules
+
+# Cordova
+/pourcentApp/platforms
+/pourcentApp/plugins
+/pourcentApp/res
