@@ -4,6 +4,8 @@ import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import {withStyles} from '@material-ui/core/styles'
 import InputAdornment from '@material-ui/core/InputAdornment';
+import DishCounter from '../services/dishCounter';
+import uuid from 'uuid/v4';
 
 const styles = theme => ({
   button: {
@@ -45,6 +47,7 @@ export default withStyles(styles)(class AddItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: '',
       itemToAdd: '',
       quantityToAdd: ''
     };
@@ -57,19 +60,24 @@ export default withStyles(styles)(class AddItem extends Component {
       .bind(this);
   }
 
-  
   handleClick(event) {
     event.preventDefault();
     event.stopPropagation();
+    let id = uuid();
 
-    let data = Object.assign({}, this.state);
+    this.setState({
+      id: id
+    }, function () {
+      let data = Object.assign({}, this.state);
 
-    this.setState({itemToAdd: '', quantityToAdd: ''});
+      DishCounter.updateRecord(this.state);
+      this.setState({itemToAdd: '', quantityToAdd: ''});
 
+      this
+        .props
+        .addItem(data);
+    });
 
-    this
-      .props
-      .addItem(data);
   }
 
   handleInputChange(event) {

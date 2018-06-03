@@ -4,6 +4,7 @@ import AddItem from '../../component/addItem';
 import BottomBar from '../../component/bottomBar';
 import ItemLine from '../../component/itemLine';
 import {withStyles} from '@material-ui/core/styles'
+import DishCounter from '../../services/dishCounter';
 
 const styles = theme => ({
   listItem: {
@@ -34,12 +35,22 @@ export default withStyles(styles)(class CookedDishCounter extends Component {
     this.estimate = this
       .estimate
       .bind(this);
+
+    this.clearData = this
+      .clearData
+      .bind(this);
+  }
+
+  clearData() {
+    console.log('clear');
+    DishCounter
+      .deleteAll()
+      .then(res => this.componentDidMount());
   }
 
   estimate(poids)
   {
-    console.log('estimate', poids);
-    let items =  this.state.items;
+    let items = this.state.items;
     for (let i of items) {
       i.estimation = Math.round(parseFloat(i.quantityToAdd / this.state.total * poids));
     }
@@ -65,6 +76,18 @@ export default withStyles(styles)(class CookedDishCounter extends Component {
 
   componentDidMount() {
     this.scrollToBottom();
+    this.setState({
+      items: []
+    }, function () {
+      DishCounter
+        .loadAll()
+        .then(res => {
+          for (let r of res) {
+            this.addItem(r);
+          }
+        });
+    })
+
   }
 
   componentDidUpdate() {
@@ -81,7 +104,7 @@ export default withStyles(styles)(class CookedDishCounter extends Component {
     const {classes} = this.props;
     return (
       <div className="App">
-        <SimpleAppBar/>
+        <SimpleAppBar clearData={this.clearData}/>
         <AddItem addItem={this.addItem}/>
         <div
           ref={el => {

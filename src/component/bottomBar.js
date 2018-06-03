@@ -44,7 +44,6 @@ export default withStyles(styles)(class BottomBar extends Component {
   }
 
   handleClick(event) {
-    console.log('click');
     
     event.preventDefault();
     event.stopPropagation();
@@ -85,7 +84,7 @@ export default withStyles(styles)(class BottomBar extends Component {
             endAdornment: <InputAdornment position="end">g</InputAdornment>
           }}
             margin="normal"/>
-          <Button type="submit" className={classes.button} variant="raised" color="primary">
+          <Button type="submit" className={classes.button} variant="raised" color="primary" >
             Estimate
             <Icon className={classes.rightIcon}>send</Icon>
           </Button>

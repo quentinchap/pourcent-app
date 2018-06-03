@@ -22,6 +22,18 @@ export default withStyles(styles)(class Total extends Component {
 
   }
 
+
+  showEstimation(estimation)
+  {
+    if(!estimation)
+    {
+      return '--';
+    }
+    else{
+      return estimation + " g";
+    }
+  }
+
   render() {
     const {classes} = this.props;
 
@@ -33,7 +45,7 @@ export default withStyles(styles)(class Total extends Component {
         <div className={classes.itemProperties}>{Math.round(parseFloat(this.props.item.quantityToAdd * 100 / this.props.total))} %
         </div>
         <div className={classes.itemProperties}>
-          {this.props.item.estimation} g
+          {this.showEstimation(this.props.item.estimation)}
         </div>
       </div>
     );
